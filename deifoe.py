@@ -5,9 +5,13 @@ import docx
 from docx.shared import Inches
 
 LOGIN_URL = 'http://deifoe.org/login/index.php'  # don't change this
-FILE_URL = 'http://deifoe.org/mod/page/view.php?id=212'  # put url of the file here
-USERNAME = ''  # add username here
-PASSWORD = ''  # add password here
+FILE_URL = ''
+USERNAME = ''
+PASSWORD = ''
+
+USERNAME=input("Username: ")
+PASSWORD  =input("Password: ")
+FILE_URL = input("File Address: ")
 payload = {'username': USERNAME,
            'password': PASSWORD}
 
@@ -87,3 +91,4 @@ with requests.Session() as session:
     doc.save(name+".docx")
 
 print("File saved as: "+name+".docx")
+input("")
