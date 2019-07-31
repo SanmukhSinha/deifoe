@@ -9,8 +9,8 @@ FILE_URL = ''
 USERNAME = ''
 PASSWORD = ''
 
-USERNAME=input("Username: ")
-PASSWORD  =input("Password: ")
+USERNAME = input("Username: ")
+PASSWORD = input("Password: ")
 FILE_URL = input("File Address: ")
 payload = {'username': USERNAME,
            'password': PASSWORD}
@@ -85,6 +85,40 @@ with requests.Session() as session:
         elif tag.name == 'ol':
             for tag in tag.children:
                 para = doc.add_paragraph(tag.text, style='List Bullet')
+        elif tag.name == 'table':
+            tbl = []
+            for tr in tag.find_all('tr'):
+                row = []
+                for th in tr.find_all('th'):
+                    row.append(th.text)
+                for td in tr.find_all('td'):
+                    row.append(td.text)
+                tbl.append(row)
+
+            nrow = len(tbl)
+            ncol = len(tbl[0])
+            table = doc.add_table(rows=nrow, cols=ncol)
+            table.style='Table Grid'
+
+            row = table.rows[0]
+            i = 0
+            for cell in row.cells:
+                cell.text = tbl[0][i]
+                run = cell.paragraphs[0].runs[0]
+                run.bold = True
+                i += 1
+
+            i = 0
+            for row in table.rows:
+                if i == 0:
+                    i += 1
+                    pass
+                else:
+                    j = 0
+                    for cell in row.cells:
+                        cell.text = tbl[i][j]
+                        j += 1
+                    i += 1
         else:
             para = doc.add_paragraph(tag.string)
 
